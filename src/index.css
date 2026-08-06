@@ -2,6 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  @apply bg-automation-slate text-slate-100 antialiased;
+html {
+  scroll-behavior: smooth;
 }
+
+body {
+  @apply bg-cream-50 text-ink-900 antialiased transition-colors duration-300 dark:bg-ink-900 dark:text-cream-100;
+  font-family: 'Inter', sans-serif;
+}
+
+.font-display {
+  font-family: 'Fraunces', serif;
+}
+
+::selection {
+  @apply bg-ember-400/30;
+}
+

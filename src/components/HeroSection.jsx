@@ -1,56 +1,100 @@
-import { ArrowDownToLine, FolderKanban } from 'lucide-react'
+import { ArrowDownToLine, Mail, MapPin, MoveDown, Phone } from 'lucide-react'
 import { motion } from 'framer-motion'
+import resumeData from '../data/resume'
+
+const lines = [
+  { number: '01', text: `Hello, I'm ${resumeData.name.split(' ')[0]}.` },
+  { number: '02', text: 'I lead programs' },
+  { number: '03', text: 'for supply chain systems.' },
+]
+
+const contactChips = [
+  { icon: Mail, label: resumeData.contact.email, href: `mailto:${resumeData.contact.email}` },
+  { icon: Phone, label: resumeData.contact.phone, href: `tel:${resumeData.contact.phone.replace(/[^+\d]/g, '')}` },
+  { icon: MapPin, label: resumeData.contact.location, href: null },
+]
 
 function HeroSection() {
   return (
-    <section className="mb-16 rounded-2xl border border-white/10 bg-white/5 px-6 py-12 md:px-10">
+    <section className="mb-20 pt-6 md:pt-14">
+      <div className="space-y-1 md:space-y-2">
+        {lines.map((line, index) => (
+          <motion.div
+            key={line.number}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: index * 0.12, ease: 'easeOut' }}
+            className="flex items-baseline gap-3 md:gap-5"
+          >
+            <span className="font-display text-sm font-medium text-ember-600 dark:text-ember-400 md:text-base">
+              {line.number}
+            </span>
+            <h1 className="font-display text-3xl font-medium leading-[1.1] tracking-tight text-ink-900 dark:text-cream-50 sm:text-5xl md:text-6xl">
+              {line.text}
+            </h1>
+          </motion.div>
+        ))}
+      </div>
+
       <motion.p
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.45 }}
-        className="text-sm uppercase tracking-[0.2em] text-automation-cyan"
+        transition={{ duration: 0.5, delay: 0.4 }}
+        className="mt-8 max-w-2xl text-lg leading-relaxed text-ink-600 dark:text-cream-100/75"
       >
-        Professional Portfolio
-      </motion.p>
-
-      <motion.h1
-        initial={{ opacity: 0, y: 16 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.45, delay: 0.08 }}
-        className="mt-3 text-4xl font-bold text-white md:text-6xl"
-      >
-        Lead QA Analyst & Automation Engineer.
-      </motion.h1>
-
-      <motion.p
-        initial={{ opacity: 0, y: 16 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.45, delay: 0.16 }}
-        className="mt-5 max-w-3xl text-lg text-slate-300"
-      >
-        Specializing in Supply Chain WMS, Data Integrity, and AI-Driven Testing.
+        {resumeData.summary}
       </motion.p>
 
       <motion.div
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.45, delay: 0.24 }}
-        className="mt-8 flex flex-wrap gap-4"
+        transition={{ duration: 0.5, delay: 0.5 }}
+        className="mt-9 flex flex-wrap items-center gap-4"
       >
         <a
           href="/SUBHAM-ROY-RESUME.pdf"
-          className="inline-flex items-center gap-2 rounded-lg border border-automation-cyan/60 bg-automation-cyan/10 px-5 py-3 font-medium text-white shadow-[0_0_20px_rgba(14,165,233,0.28)] transition-all duration-200 hover:bg-automation-cyan/20 hover:shadow-[0_0_26px_rgba(14,165,233,0.4)]"
+          className="inline-flex items-center gap-2 rounded-full bg-ink-900 px-6 py-3 text-sm font-medium text-cream-50 transition-transform duration-200 hover:-translate-y-0.5 hover:bg-ember-600 dark:bg-cream-50 dark:text-ink-900 dark:hover:bg-ember-400"
         >
-          <ArrowDownToLine className="h-4 w-4 text-automation-cyan" />
+          <ArrowDownToLine className="h-4 w-4" />
           Download Resume
         </a>
         <a
-          href="#automation-projects"
-          className="inline-flex items-center gap-2 rounded-lg border border-white/20 bg-white/5 px-5 py-3 font-medium text-slate-100 shadow-[0_0_18px_rgba(148,163,184,0.16)] transition-all duration-200 hover:border-automation-cyan/50 hover:text-white hover:shadow-[0_0_24px_rgba(14,165,233,0.26)]"
+          href="#experience"
+          className="inline-flex items-center gap-2 rounded-full border border-ink-900/15 px-6 py-3 text-sm font-medium text-ink-900 transition-colors duration-200 hover:border-ember-500 hover:text-ember-600 dark:border-cream-100/20 dark:text-cream-50 dark:hover:border-ember-400 dark:hover:text-ember-400"
         >
-          <FolderKanban className="h-4 w-4 text-automation-cyan" />
-          View Projects
+          <MoveDown className="h-4 w-4" />
+          See my journey
         </a>
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.58 }}
+        className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-ink-500 dark:text-cream-100/60"
+      >
+        {contactChips.map((chip) => {
+          const Icon = chip.icon
+          const content = (
+            <>
+              <Icon className="h-3.5 w-3.5 text-ember-600 dark:text-ember-400" />
+              {chip.label}
+            </>
+          )
+          return chip.href ? (
+            <a
+              key={chip.label}
+              href={chip.href}
+              className="inline-flex items-center gap-1.5 transition-colors duration-200 hover:text-ember-600 dark:hover:text-ember-400"
+            >
+              {content}
+            </a>
+          ) : (
+            <span key={chip.label} className="inline-flex items-center gap-1.5">
+              {content}
+            </span>
+          )
+        })}
       </motion.div>
     </section>
   )
