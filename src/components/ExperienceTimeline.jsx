@@ -1,19 +1,39 @@
 import { motion } from 'framer-motion'
 import resumeData from '../data/resume'
 
+/** Renders highlight text with **keyword** segments as bold. */
+function HighlightText({ text }) {
+  const parts = text.split(/(\*\*[^*]+\*\*)/g)
+
+  return (
+    <>
+      {parts.map((part, index) => {
+        if (part.startsWith('**') && part.endsWith('**')) {
+          return (
+            <strong key={index} className="font-semibold text-ink-900 dark:text-night-text">
+              {part.slice(2, -2)}
+            </strong>
+          )
+        }
+        return <span key={index}>{part}</span>
+      })}
+    </>
+  )
+}
+
 function ExperienceTimeline() {
   return (
-    <section id="experience" className="mb-20">
+    <section id="experience" className="pt-20 mb-20">
       <div className="mb-10">
         <p className="text-sm font-medium uppercase tracking-[0.2em] text-ember-600 dark:text-ember-400">
           Career Timeline
         </p>
-        <h2 className="mt-2 font-display text-3xl font-medium text-ink-900 dark:text-cream-50 md:text-4xl">
+        <h2 className="mt-2 font-display text-3xl font-medium text-ink-900 dark:text-night-text md:text-4xl">
           Experience
         </h2>
       </div>
 
-      <div className="relative space-y-8 pl-10 before:absolute before:bottom-1 before:left-3 before:top-1 before:w-px before:bg-ink-900/10 before:dark:bg-cream-100/10">
+      <div className="relative space-y-8 pl-10 before:absolute before:bottom-1 before:left-3 before:top-1 before:w-px before:bg-ink-900/10 before:dark:bg-night-border/40">
         {resumeData.experience.map((job, index) => {
           const isCurrentRole = index === 0
 
@@ -24,14 +44,14 @@ function ExperienceTimeline() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, amount: 0.25 }}
               transition={{ duration: 0.45, delay: index * 0.08 }}
-              className="relative rounded-2xl border border-ink-900/10 bg-white/60 p-6 shadow-sm transition-colors duration-300 dark:border-cream-100/10 dark:bg-ink-800/60"
+              className="relative rounded-2xl border border-ink-900/10 bg-white/60 p-6 shadow-sm transition-colors duration-300 dark:border-night-border/40 dark:bg-night-surface/60"
             >
-              <span className="absolute -left-10 top-6 flex h-7 w-7 items-center justify-center rounded-full border border-ember-500/50 bg-cream-50 font-display text-xs font-medium text-ember-600 dark:bg-ink-900 dark:text-ember-400">
+              <span className="absolute -left-10 top-6 flex h-7 w-7 items-center justify-center rounded-full border border-ember-500/50 bg-cream-50 font-display text-xs font-medium text-ember-600 dark:bg-night dark:text-ember-400">
                 {String(index + 1).padStart(2, '0')}
               </span>
 
               <div className="flex flex-wrap items-center gap-3">
-                <h3 className="font-display text-xl font-medium text-ink-900 dark:text-cream-50">
+                <h3 className="font-display text-xl font-medium text-ink-900 dark:text-night-text">
                   {job.role}
                 </h3>
                 {isCurrentRole && (
@@ -41,35 +61,37 @@ function ExperienceTimeline() {
                 )}
               </div>
 
-              <p className="mt-1 text-sm text-ink-600 dark:text-cream-100/70">
+              <p className="mt-1 text-sm text-ink-600 dark:text-night-text/70">
                 {job.company} - {job.client}
               </p>
-              <p className="text-sm text-ink-400 dark:text-cream-100/50">
+              <p className="text-sm text-ink-400 dark:text-night-text/50">
                 {job.location} | {job.duration}
               </p>
 
               {job.highlights ? (
-                <ul className="mt-4 space-y-2 text-sm text-ink-700 dark:text-cream-100/80">
-                  {job.highlights.map((highlight) => (
-                    <li key={highlight} className="leading-relaxed">
-                      - {highlight}
-                    </li>
-                  ))}
-                </ul>
+                <div className="mt-4 rounded-xl border border-ember-500/25 bg-cream-100/70 p-4 dark:border-ember-400/20 dark:bg-night-raised/60">
+                  <ul className="list-disc space-y-2 pl-5 text-sm text-ink-700 marker:text-ember-600 dark:text-night-text/80 dark:marker:text-ember-400">
+                    {job.highlights.map((highlight, highlightIndex) => (
+                      <li key={highlightIndex} className="leading-relaxed pl-1">
+                        <HighlightText text={highlight} />
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               ) : (
                 <div className="mt-4 space-y-4">
                   {job.tracks.map((track) => (
                     <div
                       key={track.name}
-                      className="rounded-xl border border-ink-900/10 bg-cream-100/60 p-4 dark:border-cream-100/10 dark:bg-ink-900/40"
+                      className="rounded-xl border border-ember-500/25 bg-cream-100/70 p-4 dark:border-ember-400/20 dark:bg-night-raised/60"
                     >
                       <h4 className="text-sm font-semibold uppercase tracking-wide text-ember-600 dark:text-ember-400">
                         {track.name}
                       </h4>
-                      <ul className="mt-2 space-y-2 text-sm text-ink-700 dark:text-cream-100/80">
-                        {track.highlights.map((highlight) => (
-                          <li key={highlight} className="leading-relaxed">
-                            - {highlight}
+                      <ul className="mt-2 list-disc space-y-2 pl-5 text-sm text-ink-700 marker:text-ember-600 dark:text-night-text/80 dark:marker:text-ember-400">
+                        {track.highlights.map((highlight, highlightIndex) => (
+                          <li key={highlightIndex} className="leading-relaxed pl-1">
+                            <HighlightText text={highlight} />
                           </li>
                         ))}
                       </ul>

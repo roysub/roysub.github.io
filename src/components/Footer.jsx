@@ -4,8 +4,8 @@ function Footer() {
   const year = new Date().getFullYear()
 
   return (
-    <footer className="border-t border-ink-900/10 py-8 dark:border-cream-100/10">
-      <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-6 text-sm text-ink-400 dark:text-cream-100/50 sm:flex-row">
+    <footer className="border-t border-ink-900/10 py-8 dark:border-night-border/40">
+      <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-6 text-sm text-ink-400 dark:text-night-text/50 sm:flex-row">
         <p>
           © {year} {resumeData.name}
         </p>
