@@ -1,4 +1,4 @@
-import { ArrowDownToLine, ChevronDown, Mail, MapPin, Phone } from 'lucide-react'
+import { ArrowDownToLine, ChevronDown, Mail, MapPin } from 'lucide-react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import resumeData from '../data/resume'
 
@@ -20,7 +20,6 @@ const mapQuery = resumeData.contact.location.replace(/\s*\([^)]*\)\s*/g, '').tri
 
 const contactChips = [
   { icon: Mail, label: resumeData.contact.email, href: `mailto:${resumeData.contact.email}` },
-  { icon: Phone, label: resumeData.contact.phone, href: `tel:${resumeData.contact.phone.replace(/[^+\d]/g, '')}` },
   {
     icon: MapPin,
     label: resumeData.contact.location,
@@ -39,12 +38,12 @@ function HeroSection() {
   const heroOpacity = useTransform(scrollY, [0, 400], [1, 0.6])
 
   return (
-    <section id="home" className="relative flex min-h-screen flex-col justify-between">
+    <section id="home" className="relative flex min-h-svh flex-col justify-between">
       <motion.div
         style={{ scale: heroScale, opacity: heroOpacity }}
-        className="mx-auto flex w-full max-w-7xl flex-1 flex-col justify-center px-6 pt-28 pb-16"
+        className="mx-auto flex w-full max-w-7xl flex-1 flex-col justify-center px-6 pb-10 pt-24 sm:pb-16 sm:pt-28"
       >
-        <div className="grid w-full items-center gap-10 md:grid-cols-12 lg:gap-16">
+        <div className="grid w-full items-center gap-6 sm:gap-10 md:grid-cols-12 lg:gap-16">
           {/* Photo column — left on desktop, top on mobile */}
           <motion.div
             initial={{ opacity: 0, scale: 0.96 }}
@@ -52,7 +51,7 @@ function HeroSection() {
             transition={{ duration: 0.55, delay: 0.1, ease: 'easeOut' }}
             className="mx-auto flex-shrink-0 md:col-span-4 md:mx-0"
           >
-            <div className="h-44 w-44 overflow-hidden rounded-2xl border border-ink-900/10 bg-cream-200 shadow-lg dark:border-night-border/40 dark:bg-night-surface md:h-56 md:w-56 lg:h-72 lg:w-72 lg:shadow-2xl 2xl:h-[420px] 2xl:w-[420px]">
+            <div className="h-32 w-32 overflow-hidden rounded-2xl border border-ink-900/10 bg-cream-200 shadow-lg dark:border-night-border/40 dark:bg-night-surface sm:h-44 sm:w-44 md:h-56 md:w-56 lg:h-72 lg:w-72 lg:shadow-2xl 2xl:h-[420px] 2xl:w-[420px]">
               {/*
                 Crop guide — change the second value in object-[center_X%]:
                 - lower % (e.g. 15%)  → shows higher in the photo (more headroom)
@@ -83,10 +82,10 @@ function HeroSection() {
                   Subham <span className="inline-block opacity-100 [filter:saturate(45%)]">👋</span>
                 </span>
               </h1>
-              <h3 className="font-display text-2xl font-bold leading-tight tracking-tight text-ink-900 dark:text-night-text sm:text-2xl lg:text-3xl 2xl:text-4xl">
+              <h3 className="font-display text-xl font-bold leading-tight tracking-tight text-ink-900 dark:text-night-text sm:text-2xl lg:text-3xl 2xl:text-4xl">
                 Building smart quality engineering
               </h3>
-              <h3 className="font-display text-2xl font-bold leading-tight tracking-tight text-ink-900 dark:text-night-text sm:text-2xl lg:text-3xl 2xl:text-4xl">
+              <h3 className="font-display text-xl font-bold leading-tight tracking-tight text-ink-900 dark:text-night-text sm:text-2xl lg:text-3xl 2xl:text-4xl">
                 for global supply chains.
               </h3>
             </motion.div>
@@ -95,7 +94,7 @@ function HeroSection() {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="mt-8 max-w-3xl text-left text-lg font-normal leading-relaxed text-ink-600 dark:text-slate-300 md:text-xl"
+              className="mt-5 max-w-3xl text-left text-base font-normal leading-relaxed text-ink-600 dark:text-slate-300 sm:mt-8 sm:text-lg md:text-xl"
             >
               Technical Delivery Lead with 6+ years driving large-scale Greenfield and Brownfield WMS
               deployments for top retail brands. Skilled in leading global teams, optimizing ETL workflows,
@@ -106,7 +105,7 @@ function HeroSection() {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.32 }}
-              className="mt-9 flex flex-wrap items-center justify-center gap-4 md:justify-start"
+              className="mt-6 flex flex-wrap items-center justify-center gap-3 sm:mt-9 sm:gap-4 md:justify-start"
             >
               <a
                 href="/SUBHAM-ROY-RESUME.pdf"
@@ -131,7 +130,7 @@ function HeroSection() {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.42 }}
-              className="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-ink-500 dark:text-night-text/60 md:justify-start"
+              className="mt-5 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm text-ink-500 dark:text-night-text/60 sm:mt-6 sm:gap-x-6 md:justify-start"
             >
               {contactChips.map((chip) => {
                 const Icon = chip.icon
@@ -162,12 +161,13 @@ function HeroSection() {
         </div>
       </motion.div>
 
-      {/* Bottom-of-viewport scroll cue */}
+      {/* Bottom-of-viewport scroll cue. Hidden on small screens, where the hero
+          runs taller than the viewport and the "Learn More" button already serves this role. */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.6, delay: 0.7 }}
-        className="flex justify-center pb-10"
+        className="hidden justify-center pb-10 sm:flex"
       >
         <motion.button
           type="button"

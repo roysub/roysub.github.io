@@ -3,7 +3,6 @@ export const resumeData = {
   title: 'Technical Program & Delivery Professional',
   contact: {
     email: 'subham.ro910@gmail.com',
-    phone: '+1 (716) 348-4955',
     location: 'Richmond, VA (Open to Relocation)',
     linkedin: 'https://www.linkedin.com/in/subhamroy/',
   },

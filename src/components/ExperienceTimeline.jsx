@@ -33,7 +33,7 @@ function ExperienceTimeline() {
         </h2>
       </div>
 
-      <div className="relative space-y-8 pl-10 before:absolute before:bottom-1 before:left-3 before:top-1 before:w-px before:bg-ink-900/10 before:dark:bg-night-border/40">
+      <div className="relative space-y-8 pl-8 before:absolute before:bottom-1 before:left-3 before:top-1 before:w-px before:bg-ink-900/10 before:dark:bg-night-border/40 sm:pl-10">
         {resumeData.experience.map((job, index) => {
           const isCurrentRole = index === 0
 
@@ -44,9 +44,9 @@ function ExperienceTimeline() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, amount: 0.25 }}
               transition={{ duration: 0.45, delay: index * 0.08 }}
-              className="relative rounded-2xl border border-ink-900/10 bg-white/60 p-6 shadow-sm transition-colors duration-300 dark:border-night-border/40 dark:bg-night-surface/60"
+              className="relative rounded-2xl border border-ink-900/10 bg-white/60 p-5 shadow-sm transition-colors duration-300 dark:border-night-border/40 dark:bg-night-surface/60 sm:p-6"
             >
-              <span className="absolute -left-10 top-6 flex h-7 w-7 items-center justify-center rounded-full border border-ember-500/50 bg-cream-50 font-display text-xs font-medium text-ember-600 dark:bg-night dark:text-ember-400">
+              <span className="absolute -left-8 top-6 flex h-7 w-7 items-center justify-center rounded-full border border-ember-500/50 bg-cream-50 font-display text-xs font-medium text-ember-600 dark:bg-night dark:text-ember-400 sm:-left-10">
                 {String(index + 1).padStart(2, '0')}
               </span>
 
@@ -69,8 +69,8 @@ function ExperienceTimeline() {
               </p>
 
               {job.highlights ? (
-                <div className="mt-4 rounded-xl border border-ember-500/25 bg-cream-100/70 p-4 dark:border-ember-400/20 dark:bg-night-raised/60">
-                  <ul className="list-disc space-y-2 pl-5 text-sm text-ink-700 marker:text-ember-600 dark:text-night-text/80 dark:marker:text-ember-400">
+                <div className="mt-4 rounded-xl border border-ember-500/25 bg-cream-100/70 p-3.5 dark:border-ember-400/20 dark:bg-night-raised/60 sm:p-4">
+                  <ul className="list-disc space-y-2 pl-4 text-sm text-ink-700 marker:text-ember-600 dark:text-night-text/80 dark:marker:text-ember-400 sm:pl-5">
                     {job.highlights.map((highlight, highlightIndex) => (
                       <li key={highlightIndex} className="leading-relaxed pl-1">
                         <HighlightText text={highlight} />
@@ -83,12 +83,12 @@ function ExperienceTimeline() {
                   {job.tracks.map((track) => (
                     <div
                       key={track.name}
-                      className="rounded-xl border border-ember-500/25 bg-cream-100/70 p-4 dark:border-ember-400/20 dark:bg-night-raised/60"
+                      className="rounded-xl border border-ember-500/25 bg-cream-100/70 p-3.5 dark:border-ember-400/20 dark:bg-night-raised/60 sm:p-4"
                     >
                       <h4 className="text-sm font-semibold uppercase tracking-wide text-ember-600 dark:text-ember-400">
                         {track.name}
                       </h4>
-                      <ul className="mt-2 list-disc space-y-2 pl-5 text-sm text-ink-700 marker:text-ember-600 dark:text-night-text/80 dark:marker:text-ember-400">
+                      <ul className="mt-2 list-disc space-y-2 pl-4 text-sm text-ink-700 marker:text-ember-600 dark:text-night-text/80 dark:marker:text-ember-400 sm:pl-5">
                         {track.highlights.map((highlight, highlightIndex) => (
                           <li key={highlightIndex} className="leading-relaxed pl-1">
                             <HighlightText text={highlight} />

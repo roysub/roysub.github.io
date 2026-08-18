@@ -1,16 +1,64 @@
-# React + Vite
+# roysub.github.io
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Personal portfolio site for **Subham Roy** — Technical Program & Delivery Professional.
 
-Currently, two official plugins are available:
+Live at **[roysub.github.io](https://roysub.github.io/)**.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Stack
 
-## React Compiler
+- **React 19** + **Vite 8** — application and build tooling
+- **Tailwind CSS 3.4** — styling, with a custom cool-blue palette and a LinkedIn-inspired dark theme
+- **Framer Motion** — scroll-driven hero transitions, dock magnification, and section reveals
+- **lucide-react** — icon set
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Getting started
 
-## Expanding the ESLint configuration
+```bash
+npm install
+npm run dev      # start the dev server at http://localhost:5173
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Other scripts:
+
+```bash
+npm run build    # production build into dist/
+npm run preview  # preview the production build locally
+npm run lint     # eslint
+```
+
+## Project structure
+
+```
+public/            static assets served at the site root
+  favicon.svg        "SR" monogram favicon
+  og-image.png       1200x630 social preview card
+  profile-photo.png  hero portrait
+  SUBHAM-ROY-RESUME.pdf
+  robots.txt, sitemap.xml
+src/
+  components/      one component per page section
+  context/         theme provider + useTheme hook
+  data/resume.js   all resume content lives here
+```
+
+### Updating content
+
+Nearly all page content — roles, skills, education, certificates, contact details — is
+defined in `src/data/resume.js`. Editing that single file updates the corresponding
+sections; the components read from it and handle presentation only.
+
+Job description bullets support `**bold**` markers, which are rendered as emphasised
+text by the `HighlightText` helper in `src/components/ExperienceTimeline.jsx`.
+
+## Theming
+
+Dark mode uses Tailwind's `class` strategy. A first-time visitor gets light mode before
+noon and dark mode from noon onward, based on their local clock; once they use the
+toggle, that choice is saved to `localStorage` and always wins. The inline script in
+`index.html` applies the theme before first paint to avoid a flash of the wrong theme.
+
+## Deployment
+
+Pushing to `main` triggers `.github/workflows/deploy.yml`, which builds the site and
+publishes `dist/` to GitHub Pages. The repository's **Settings → Pages → Source** must be
+set to **GitHub Actions**. The workflow can also be run manually from the Actions tab.
