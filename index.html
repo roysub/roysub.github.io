@@ -81,8 +81,9 @@
     <script>
       (function () {
         var stored = localStorage.getItem('theme')
-        var isAfternoonOrEvening = new Date().getHours() >= 12
-        if (stored === 'dark' || (!stored && isAfternoonOrEvening)) {
+        var hour = new Date().getHours()
+        var shouldUseDarkTheme = stored === 'dark' || (stored !== 'light' && (hour < 6 || hour >= 18))
+        if (shouldUseDarkTheme) {
           document.documentElement.classList.add('dark')
         }
       })()

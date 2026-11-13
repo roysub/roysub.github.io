@@ -3,14 +3,11 @@ import resumeData from '../data/resume'
 
 function Education() {
   return (
-    <section id="education" className="mb-20">
+    <section id="education" className="scroll-mt-24 mb-20">
       <div className="mb-10">
         <p className="text-sm font-medium uppercase tracking-[0.2em] text-ember-600 dark:text-ember-400">
           Academics
         </p>
-        <h2 className="mt-2 font-display text-3xl font-medium text-ink-900 dark:text-night-text md:text-4xl">
-          Education
-        </h2>
       </div>
 
       <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">

@@ -1,26 +1,47 @@
 import { useEffect, useState } from 'react'
 import { ThemeContext } from './useTheme'
+import { getAutomaticTheme } from './themeSchedule'
 
-function getInitialTheme() {
-  if (typeof window === 'undefined') return 'light'
+function getInitialPreference() {
+  if (typeof window === 'undefined') return 'auto'
   const stored = window.localStorage.getItem('theme')
-  if (stored === 'dark' || stored === 'light') return stored
-  // First-time visitor with no saved preference: default by local time of day —
-  // AM (before noon) opens in Light Mode, PM (noon or later) opens in Dark Mode.
-  const isAfternoonOrEvening = new Date().getHours() >= 12
-  return isAfternoonOrEvening ? 'dark' : 'light'
+  return stored === 'dark' || stored === 'light' ? stored : 'auto'
 }
 
 export function ThemeProvider({ children }) {
-  const [theme, setTheme] = useState(getInitialTheme)
+  const [preference, setPreference] = useState(getInitialPreference)
+  const [now, setNow] = useState(() => new Date())
+  const theme = preference === 'auto' ? getAutomaticTheme(now) : preference
+
+  useEffect(() => {
+    if (preference !== 'auto') return undefined
+
+    const id = window.setInterval(() => setNow(new Date()), 60_000)
+    return () => window.clearInterval(id)
+  }, [preference])
 
   useEffect(() => {
     const root = document.documentElement
     root.classList.toggle('dark', theme === 'dark')
-    window.localStorage.setItem('theme', theme)
   }, [theme])
 
-  const toggleTheme = () => setTheme((current) => (current === 'dark' ? 'light' : 'dark'))
+  const toggleTheme = () => {
+    const nextPreference = theme === 'dark' ? 'light' : 'dark'
+    window.localStorage.setItem('theme', nextPreference)
+    setPreference(nextPreference)
+  }
 
-  return <ThemeContext.Provider value={{ theme, toggleTheme }}>{children}</ThemeContext.Provider>
+  const useAutomaticTheme = () => {
+    window.localStorage.setItem('theme', 'auto')
+    setPreference('auto')
+    setNow(new Date())
+  }
+
+  return (
+    <ThemeContext.Provider
+      value={{ theme, toggleTheme, useAutomaticTheme, isAutomatic: preference === 'auto' }}
+    >
+      {children}
+    </ThemeContext.Provider>
+  )
 }

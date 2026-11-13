@@ -37,7 +37,17 @@ export const resumeData = {
       'AWS',
       'IBM Cognos',
     ],
-    toolsAndAI: ['Generative AI', 'JIRA', 'Confluence', 'Postman', 'Splunk', 'Office 365'],
+    toolsAndAI: [
+      'Generative AI',
+      'AI Fluency',
+      'AI-assisted development with Gemini',
+      'Claude architecture fundamentals',
+      'JIRA',
+      'Confluence',
+      'Postman',
+      'Splunk',
+      'Office 365',
+    ],
   },
   experience: [
     {
@@ -132,6 +142,27 @@ export const resumeData = {
   ],
   certificates: [
     {
+      title: 'Claude Certified Architect - Foundations',
+      issuer: 'Anthropic',
+      issued: 'October 2026',
+      expires: 'October 2027',
+      isNew: true,
+    },
+    {
+      title: 'Build with Gemini - Track 2: Platform IT Developer',
+      issuer: 'Google Cloud Security',
+      issued: 'October 2026',
+      expires: null,
+      isNew: true,
+    },
+    {
+      title: 'AI Fluency: Framework & Foundations',
+      issuer: 'Anthropic',
+      issued: 'October 2026',
+      expires: null,
+      isNew: true,
+    },
+    {
       title: 'Splunk Core Certified User',
       issuer: 'Splunk',
       issued: 'March 2024',
@@ -157,5 +188,196 @@ export const resumeData = {
     },
   ],
 }
+
+function isNonEmptyString(value) {
+  return typeof value === 'string' && value.trim().length > 0
+}
+
+function expectArrayOfStrings(label, value) {
+  if (!Array.isArray(value)) {
+    throw new Error(`${label} must be an array of strings.`)
+  }
+
+  if (!value.every((item) => typeof item === 'string' && item.trim().length > 0)) {
+    throw new Error(`${label} must only contain non-empty strings.`)
+  }
+}
+
+export function validateResumeData(data) {
+  if (!data || typeof data !== 'object') {
+    throw new Error('resumeData must be an object.')
+  }
+
+  const requiredTopLevel = ['name', 'title', 'contact', 'summary', 'skills', 'experience', 'education', 'volunteership', 'certificates']
+
+  for (const key of requiredTopLevel) {
+    if (!(key in data)) {
+      throw new Error(`resumeData is missing required field: ${key}`)
+    }
+  }
+
+  if (!isNonEmptyString(data.name)) {
+    throw new Error('resumeData.name must be a non-empty string.')
+  }
+
+  if (!isNonEmptyString(data.title)) {
+    throw new Error('resumeData.title must be a non-empty string.')
+  }
+
+  if (!isNonEmptyString(data.summary)) {
+    throw new Error('resumeData.summary must be a non-empty string.')
+  }
+
+  if (!data.contact || typeof data.contact !== 'object') {
+    throw new Error('resumeData.contact must be an object.')
+  }
+
+  if (!isNonEmptyString(data.contact.email)) {
+    throw new Error('resumeData.contact.email must be a valid email string.')
+  }
+
+  if (!isNonEmptyString(data.contact.location)) {
+    throw new Error('resumeData.contact.location must be a non-empty string.')
+  }
+
+  if (!isNonEmptyString(data.contact.linkedin)) {
+    throw new Error('resumeData.contact.linkedin must be a non-empty URL string.')
+  }
+
+  if (!data.skills || typeof data.skills !== 'object') {
+    throw new Error('resumeData.skills must be an object.')
+  }
+
+  const skillGroups = ['programManagement', 'supplyChain', 'dataAndProgramming', 'toolsAndAI']
+  for (const group of skillGroups) {
+    if (!(group in data.skills)) {
+      throw new Error(`resumeData.skills.${group} is missing.`)
+    }
+    expectArrayOfStrings(`resumeData.skills.${group}`, data.skills[group])
+  }
+
+  if (!Array.isArray(data.experience)) {
+    throw new Error('resumeData.experience must be an array.')
+  }
+
+  for (const [index, job] of data.experience.entries()) {
+    if (!job || typeof job !== 'object') {
+      throw new Error(`resumeData.experience[${index}] must be an object.`)
+    }
+
+    if (!isNonEmptyString(job.company)) {
+      throw new Error(`resumeData.experience[${index}].company must be a non-empty string.`)
+    }
+
+    if (!isNonEmptyString(job.role)) {
+      throw new Error(`resumeData.experience[${index}].role must be a non-empty string.`)
+    }
+
+    if (!isNonEmptyString(job.duration)) {
+      throw new Error(`resumeData.experience[${index}].duration must be a non-empty string.`)
+    }
+
+    if (job.highlights) {
+      expectArrayOfStrings(`resumeData.experience[${index}].highlights`, job.highlights)
+    }
+
+    if (job.tracks) {
+      if (!Array.isArray(job.tracks)) {
+        throw new Error(`resumeData.experience[${index}].tracks must be an array.`)
+      }
+
+      for (const [trackIndex, track] of job.tracks.entries()) {
+        if (!track || typeof track !== 'object') {
+          throw new Error(`resumeData.experience[${index}].tracks[${trackIndex}] must be an object.`)
+        }
+
+        if (!isNonEmptyString(track.name)) {
+          throw new Error(`resumeData.experience[${index}].tracks[${trackIndex}].name must be a non-empty string.`)
+        }
+
+        expectArrayOfStrings(
+          `resumeData.experience[${index}].tracks[${trackIndex}].highlights`,
+          track.highlights,
+        )
+      }
+    }
+  }
+
+  if (!Array.isArray(data.education)) {
+    throw new Error('resumeData.education must be an array.')
+  }
+
+  for (const [index, item] of data.education.entries()) {
+    if (!item || typeof item !== 'object') {
+      throw new Error(`resumeData.education[${index}] must be an object.`)
+    }
+
+    if (!isNonEmptyString(item.school)) {
+      throw new Error(`resumeData.education[${index}].school must be a non-empty string.`)
+    }
+
+    if (!isNonEmptyString(item.degree)) {
+      throw new Error(`resumeData.education[${index}].degree must be a non-empty string.`)
+    }
+
+    if (!isNonEmptyString(item.duration)) {
+      throw new Error(`resumeData.education[${index}].duration must be a non-empty string.`)
+    }
+  }
+
+  if (!Array.isArray(data.volunteership)) {
+    throw new Error('resumeData.volunteership must be an array.')
+  }
+
+  for (const [index, item] of data.volunteership.entries()) {
+    if (!item || typeof item !== 'object') {
+      throw new Error(`resumeData.volunteership[${index}] must be an object.`)
+    }
+
+    if (!isNonEmptyString(item.organization)) {
+      throw new Error(`resumeData.volunteership[${index}].organization must be a non-empty string.`)
+    }
+
+    if (!isNonEmptyString(item.role)) {
+      throw new Error(`resumeData.volunteership[${index}].role must be a non-empty string.`)
+    }
+
+    if (!isNonEmptyString(item.duration)) {
+      throw new Error(`resumeData.volunteership[${index}].duration must be a non-empty string.`)
+    }
+
+    if (item.highlights) {
+      expectArrayOfStrings(`resumeData.volunteership[${index}].highlights`, item.highlights)
+    }
+  }
+
+  if (!Array.isArray(data.certificates)) {
+    throw new Error('resumeData.certificates must be an array.')
+  }
+
+  for (const [index, cert] of data.certificates.entries()) {
+    if (!cert || typeof cert !== 'object') {
+      throw new Error(`resumeData.certificates[${index}] must be an object.`)
+    }
+
+    if (!isNonEmptyString(cert.title)) {
+      throw new Error(`resumeData.certificates[${index}].title must be a non-empty string.`)
+    }
+
+    if (!isNonEmptyString(cert.issuer)) {
+      throw new Error(`resumeData.certificates[${index}].issuer must be a non-empty string.`)
+    }
+
+    if (!isNonEmptyString(cert.issued)) {
+      throw new Error(`resumeData.certificates[${index}].issued must be a non-empty string.`)
+    }
+
+    if (cert.expires !== null && !isNonEmptyString(cert.expires)) {
+      throw new Error(`resumeData.certificates[${index}].expires must be a string or null.`)
+    }
+  }
+}
+
+validateResumeData(resumeData)
 
 export default resumeData

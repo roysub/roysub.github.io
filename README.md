@@ -52,10 +52,11 @@ text by the `HighlightText` helper in `src/components/ExperienceTimeline.jsx`.
 
 ## Theming
 
-Dark mode uses Tailwind's `class` strategy. A first-time visitor gets light mode before
-noon and dark mode from noon onward, based on their local clock; once they use the
-toggle, that choice is saved to `localStorage` and always wins. The inline script in
-`index.html` applies the theme before first paint to avoid a flash of the wrong theme.
+Dark mode uses Tailwind's `class` strategy. By default, the site uses light mode from
+6 a.m. to 6 p.m. and dark mode overnight, based on the visitor's local clock. The
+theme toggle saves a manual light/dark choice; the adjacent **Auto** button restores
+the schedule. The inline script in `index.html` applies the theme before first paint
+to avoid a flash of the wrong theme.
 
 ## Deployment
 

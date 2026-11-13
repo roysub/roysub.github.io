@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion, useMotionValue, useSpring, useTransform } from 'framer-motion'
-import { Award, Briefcase, Cpu, GraduationCap, Home } from 'lucide-react'
+import { Award, Briefcase, GraduationCap, Home, Wrench } from 'lucide-react'
 import ThemeToggle from './ThemeToggle'
 
 function scrollToTop(event) {
@@ -11,7 +11,7 @@ function scrollToTop(event) {
 const links = [
   { label: 'Home', href: '#home', icon: Home, onClick: scrollToTop },
   { label: 'Experience', href: '#experience', icon: Briefcase },
-  { label: 'Skills', href: '#technical-skills', icon: Cpu },
+  { label: 'Skills', href: '#technical-skills', icon: Wrench },
   { label: 'Education', href: '#education', icon: GraduationCap },
   { label: 'Certificates', href: '#certificates', icon: Award },
 ]
@@ -84,10 +84,12 @@ function TimezoneCompare() {
   const relation = describeOffset(visitorOffset - easternOffset)
 
   return (
-    <a
-      href="#"
+    <div
+      role="status"
+      aria-live="polite"
+      aria-atomic="true"
       aria-label={`My time ${easternLabel} ${easternTime}. Your local time ${localTime}. ${relation}.`}
-      className="group flex min-w-0 flex-col gap-0.5 no-underline"
+      className="group flex min-w-0 flex-col gap-0.5"
     >
       <span className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
         <span className="text-[10px] font-semibold uppercase tracking-[0.16em] text-ember-600 dark:text-ember-400">
@@ -102,7 +104,7 @@ function TimezoneCompare() {
         <span className="font-medium text-ink-700 dark:text-night-text/80">{localTime}</span>
         <span className="text-ember-600/90 dark:text-ember-400/90">· {relation}</span>
       </span>
-    </a>
+    </div>
   )
 }
 

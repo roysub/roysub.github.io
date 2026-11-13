@@ -10,14 +10,11 @@ const groups = [
 
 function TechnicalSkills() {
   return (
-    <section id="technical-skills" className="mb-16">
+    <section id="technical-skills" className="scroll-mt-24 mb-16">
       <div className="mb-10">
         <p className="text-sm font-medium uppercase tracking-[0.2em] text-ember-600 dark:text-ember-400">
-          Toolkit
+          My Toolkit
         </p>
-        <h2 className="mt-2 font-display text-3xl font-medium text-ink-900 dark:text-night-text md:text-4xl">
-          Technical Skills
-        </h2>
       </div>
 
       <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
